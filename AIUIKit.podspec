@@ -1,42 +1,24 @@
-#
-# Be sure to run `pod lib lint AIUIKit.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = 'AIUIKit'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of AIUIKit.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
+  s.summary          = 'Simplify UIKit related tasks.'
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+AIUIKit offers you a simplified way to perform certain tasks when working with UIKit.
+- managing UIViewController hierarchy
+- taking screenshots of UI elements
+- generating blank images
+- using external fonts
+- formatting strings
+- interacting with CGPoint and CGPathRef
                        DESC
-
-  s.homepage         = 'https://github.com/Adrian Ilie/AIUIKit'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.homepage         = 'https://github.com/adrianilie9/AIUIKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Adrian Ilie' => 'adrian.ilie.x64@gmail.com' }
-  s.source           = { :git => 'https://github.com/Adrian Ilie/AIUIKit.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  
+  s.source           = { :git => 'https://github.com/adrianilie9/AIUIKit.git', :tag => 'V.0.1.0' }
+  s.social_media_url = 'https://twitter.com/iadi64'
 
   s.ios.deployment_target = '8.0'
-
+  s.frameworks = 'UIKit'
   s.source_files = 'AIUIKit/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'AIUIKit' => ['AIUIKit/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
