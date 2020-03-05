@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'AIUIKit_Example' do
+  pod 'AIUIKit', :path => '../'
+
+  target 'AIUIKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
