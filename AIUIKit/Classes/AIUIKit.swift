@@ -21,7 +21,6 @@ public class AIUIKit {
             guard let windowScene = (UIApplication.shared.connectedScenes.filter { $0.activationState == .foregroundActive }.first) as? UIWindowScene else { return }
             let windows = windowScene.windows.filter{ return $0.isMember(of: UIWindow.classForCoder()) }
             window = (windows.count == 1) ? windows[0] : nil
-            
         } else {
             if let appDelegateWindow = UIApplication.shared.delegate?.window {
                 window = appDelegateWindow

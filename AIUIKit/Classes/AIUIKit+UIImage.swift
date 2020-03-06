@@ -37,14 +37,16 @@ public extension UIImage {
      * - parameter view: source view
      * - returns: image of source view
      */
-    class func ofView(view: UIView) -> UIImage? {
+    convenience init?(ofView view: UIView) {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0.0)
         defer { UIGraphicsEndImageContext() }
         
         view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
         
-        return image
+        guard let image = UIGraphicsGetImageFromCurrentImageContext(), let cgImage = image.cgImage else {
+            return nil
+        }
+        self.init(cgImage: cgImage)
     }
 
     /**
@@ -53,12 +55,14 @@ public extension UIImage {
      * - parameter size: image size
      * - returns: transparent image
      */
-    class func transparent(size: CGSize) -> UIImage? {
+    convenience init?(size: CGSize) {
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         defer { UIGraphicsEndImageContext() }
-        let image = UIGraphicsGetImageFromCurrentImageContext()
         
-        return image
+        guard let image = UIGraphicsGetImageFromCurrentImageContext(), let cgImage = image.cgImage else {
+            return nil
+        }
+        self.init(cgImage: cgImage)
     }
 
     /**
@@ -67,46 +71,38 @@ public extension UIImage {
      * - parameter label: label to draw
      * - return: image object
      */
-    class func image(withLabel label: UILabel) -> UIImage {
+    convenience init?(label: UILabel) {
         UIGraphicsBeginImageContextWithOptions(label.bounds.size, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
         
-        label.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        label.layer.render(in: context)
         
-        return image!
+        guard let image = UIGraphicsGetImageFromCurrentImageContext(), let cgImage = image.cgImage else {
+            return nil
+        }
+        self.init(cgImage: cgImage)
     }
     
     /**
      * Create a transparent UIImage with a string placed centrally.
      *
-     * - parameter fontName: text font name
-     * - parameter content: text value
-     * - parameter color: text color
      * - parameter size: image size
+     * - parameter font: text font name
+     * - parameter color: text color
+     * - parameter content: text value
+     *
      * - return: image object
      */
-    class func image(withFontName fontName: String, content: String, color: UIColor, size: CGSize) -> UIImage {
-        let label = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: size.width, height: size.height))
+    convenience init?(size: CGSize, font: UIFont, color: UIColor, content: String) {
+        let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height))
+        label.numberOfLines = 0
         label.text = content
-        label.font = UIFont.init(name: fontName, size: min(size.width, size.height) * 0.85)
+        label.font = font
         label.textAlignment = .center
         label.textColor = color
         
-        let image = UIImage.image(withLabel: label)
-        return image
-    }
-    
-    /**
-     * Create a transparent square UIImage with a string placed centrally.
-     *
-     * - parameter fontName: text font name
-     * - parameter content: text value
-     * - parameter color: text color
-     * - parameter size: image height and width
-     * - return: iamge object
-     */
-    class func image(withFontName fontName: String, content: String, color: UIColor, size: CGFloat) -> UIImage {
-        return UIImage.image(withFontName: fontName, content: content, color: color, size: CGSize.init(width: size, height: size))
+        guard let cgImage = UIImage(label: label)?.cgImage else { return nil }
+        self.init(cgImage: cgImage)
     }
 }
