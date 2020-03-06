@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AIUIKit {
+public class AIUIKit {
     /**
      * Replace current root view controler with the specified view controller.
      *

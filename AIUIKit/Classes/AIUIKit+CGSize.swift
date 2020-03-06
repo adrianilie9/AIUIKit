@@ -7,14 +7,14 @@
 
 import UIKit
 
-extension CGSize {
+public extension CGSize {
     /**
      * Resize a given CGSize to fit in a maximum CGSize, while maintaining the aspect ratio.
      *
      * - parameter size: maximum size
      * - returns: resized CGSize
      */
-    public func resize(toMaximumSize size: CGSize) -> CGSize {
+    func resize(toMaximumSize size: CGSize) -> CGSize {
         var resizeWidth: CGFloat = 0.0
         var resizeHeight: CGFloat = 0.0
         

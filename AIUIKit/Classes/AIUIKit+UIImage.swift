@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIImage {
+public extension UIImage {
     /**
      * Create a image filled with a color.
      *

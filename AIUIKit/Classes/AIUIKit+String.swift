@@ -7,13 +7,13 @@
 
 import UIKit
 
-extension String {
+public extension String {
     /**
      * Remove HTML tags from string.
      *
      * - returns: filtered string
      */
-    public func htmlTagsFiltered() -> String {
+    func htmlTagsFiltered() -> String {
         return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
     
@@ -23,7 +23,7 @@ extension String {
      * - parameter length: desired string length
      * - returns: trimmed string
      */
-    public func trimToLength(length: Int) -> String {
+    func trimToLength(length: Int) -> String {
         if let range = Range(NSRange(location: 0, length: min(self.count, length)), in: self) {
             let trimRange = self.rangeOfComposedCharacterSequences(for: range)
             return self[trimRange].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -39,7 +39,7 @@ extension String {
      * - parameter font: font used for rendering string
      * - returns: visible part of the string
      */
-    public func visible(inSize size: CGSize, withFont font: UIFont) -> String {
+    func visible(inSize size: CGSize, withFont font: UIFont) -> String {
         var visibleString = ""
         for index in self.indices[self.startIndex ..< self.endIndex] {
             let testString = String(self[..<index])
@@ -67,7 +67,7 @@ extension String {
      * - parameter width: horizontal limit
      * - returns: required height
      */
-    public func requiredHeightToDisplay(forWidth width: CGFloat, withFont font: UIFont) -> CGFloat {
+    func requiredHeightToDisplay(forWidth width: CGFloat, withFont font: UIFont) -> CGFloat {
         return NSString(string: self).boundingRect(
             with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude),
             options: .usesLineFragmentOrigin,

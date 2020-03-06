@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIColor {
+public extension UIColor {
     /**
      * Initializes a color using the specified hex and opacity value.
      *

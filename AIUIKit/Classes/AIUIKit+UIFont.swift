@@ -7,11 +7,11 @@
 
 import UIKit
 
-extension UIFont {
+public extension UIFont {
     /**
      * Print to console a list of fonts available in the application.
      */
-    public static func printAvailableFonts() {
+    static func printAvailableFonts() {
         for fontFamily in UIFont.familyNames {
             print("\(fontFamily): \(UIFont.fontNames(forFamilyName: fontFamily))")
         }
