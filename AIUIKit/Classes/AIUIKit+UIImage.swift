@@ -88,7 +88,7 @@ public extension UIImage {
      * Create a transparent UIImage with a string placed centrally.
      *
      * - parameter size: image size
-     * - parameter font: text font name
+     * - parameter font: text font
      * - parameter color: text color
      * - parameter content: text value
      *

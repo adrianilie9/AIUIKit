@@ -43,10 +43,12 @@ class ViewController: UIViewController {
      * Draw a square UIView and set it's color by using a hex color code.
      */
     private func demoColorHex() {
+        guard let scrollView = self.scrollView else { return }
+        
         // draw amber square
         let squareView = UIView(frame: CGRect(x: 40.0, y: 40.0, width: 50.0, height: 50.0))
         squareView.backgroundColor = UIColor(hex: "f0a30a")
-        view.addSubview(squareView)
+        scrollView.addSubview(squareView)
     }
     
     /**
@@ -102,10 +104,12 @@ class ViewController: UIViewController {
         let constraintWidth = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 320.0)
         let constraintHeight = NSLayoutConstraint(item: imageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 150.0)
         let constraintLeading = NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: scrollView, attribute: .leading, multiplier: 1.0, constant: 40.0)
+        let constraintTrailig = NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: scrollView, attribute: .trailing, multiplier: 1.0, constant: -40.0)
         let constraintTop = NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .top, multiplier: 1.0, constant: 537.0)
+        let constraintBottom = NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1.0, constant: -40.0)
         scrollView.addConstraints([
             constraintWidth, constraintHeight,
-            constraintLeading, constraintTop
+            constraintLeading, constraintTrailig, constraintTop, constraintBottom
         ])
         
         if let font = UIFont(name: "AvenirNextCondensed-DemiBold", size: 20.0) {
