@@ -3,13 +3,12 @@ Pod::Spec.new do |s|
   s.version          = '0.1.0'
   s.summary          = 'Simplify UIKit related tasks.'
   s.description      = <<-DESC
-AIUIKit offers you a simplified way to perform certain tasks when working with UIKit.
-- managing UIViewController hierarchy
-- taking screenshots of UI elements
-- generating blank images
-- using external fonts
-- formatting strings
-- interacting with CGPoint and CGPathRef
+AIUIKit is a collection of methods that can help building the user interface of almost any iOS application. It's main features include:
+
+- UIColor creation using HEX color codes
+- HTML string escaping
+- Strings trimming and size calculation required for rendering
+- UIImage creation using vector fonts
                        DESC
   s.homepage         = 'https://github.com/adrianilie9/AIUIKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -17,7 +16,7 @@ AIUIKit offers you a simplified way to perform certain tasks when working with U
   s.social_media_url = 'https://twitter.com/iadi64'
   
   s.source                  = { :git => 'https://github.com/adrianilie9/AIUIKit.git', :tag => 'V.0.1.0' }
-  s.ios.deployment_target   = '8.0'
+  s.ios.deployment_target   = '10.0'
   s.swift_versions          = '5.0'
   s.frameworks              = 'UIKit'
   s.source_files            = 'AIUIKit/Classes/**/*'
