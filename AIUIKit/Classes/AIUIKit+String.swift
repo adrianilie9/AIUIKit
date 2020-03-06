@@ -68,11 +68,11 @@ public extension String {
      * - returns: required height
      */
     func requiredHeightToDisplay(forWidth width: CGFloat, withFont font: UIFont) -> CGFloat {
-        return NSString(string: self).boundingRect(
+        return ceil(NSString(string: self).boundingRect(
             with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude),
             options: .usesLineFragmentOrigin,
             attributes: [NSAttributedString.Key.font : font],
             context: nil
-        ).size.height
+        ).size.height)
     }
 }
