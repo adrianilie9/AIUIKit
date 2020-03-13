@@ -27,62 +27,96 @@ pod 'AIUIKit'
 
 ## Usage
 
-### UIViewController hierarchy
+##### Replace application root view controller
 
-Replacing the application root view controller can be performed by calling ```AIUIKit.replaceRootViewController(viewController: vc)```.
+```swift
+AIUIKit.replaceRootViewController(viewController: UIViewController)
+```
 
 ### UIColor
 
-Creating a UIColor with the hex color code of ```f0a30a``` and alpha channel value of ```0.5```.
+All UIColor methods are implemented as an extension on UIColor class.
+
+##### Creating UIColor using HEX code
 
 ```swift
-UIColor(hex: "f0a30a", alpha: 0.5)
+UIColor(hex: String, alpha: CGFloat? = 1.0)
 ```
-
-Alpha channel value is optional, if not specified it defaults to ```1.0```
-
 
 ### String
 
-All string methods are implemented as an extension on String type.
+All string methods are implemented as an extension on String class.
 
-##### HTML tags removal
+##### HTML tags removal from a string
 
-To remove the HTML tags from a string call ```htmlTagsFiltered()``` method.
+```swift
+stringInstance.htmlTagsFiltered()
+```
 
-##### Trimming to specified length
+##### Trimming string to specified length
 
-All strings support ```trimToLength(length: Int)``` method that allows an exact trim.
+```swift
+stringInstance.trimToLength(length: Int)
+```
 
-##### Rendered size 
+##### Calculate visibile part of a string when rendered
 
-You can calculate what part of a string will be visible when rendered with a specified font in a given size by using ```visible(inSize size: CGSize, withFont font: UIFont)```.
+```swift
+stringInstance.visible(inSize size: CGSize, withFont font: UIFont)
+```
 
-When requiring the height necessary to display a string, ```requiredHeightToDisplay(forWidth width: CGFloat, withFont font: UIFont)``` can be used to calculate this value.
+##### Calculate height to display a string
+
+```swift
+stringInstance.requiredHeightToDisplay(forWidth width: CGFloat, withFont font: UIFont)
+```
 
 ### UIFont
 
-When working with custom fonts, you can use ```UIFont.printAvailableFonts()``` to print in console all fonts available in the app and extract the name of the font you want to use.
+##### Printing to console all fonts available in the app
+
+```swift
+UIFont.printAvailableFonts()
+```
 
 ### UIImage
 
-##### Blank images
+All UIImage methods are implemented as an extension on UIImage class.
 
-To create a 1p x 1p image with the ```f0a30a``` fill color you can use the method ```UIImage(size: CGSize(x: 1.0, y: 1.0), color: UIColor(hex: "f0a30a")```.
+##### Create transparent image
 
-Creating a transparent image can be achieved by calling ```UIImage(size: CGSize(width: 1.0, height: 1.0))```.
+```swift
+UIImage(size: CGSize)
+```
 
-##### Screenshots
+##### Create colored image
 
-Taking a screenshot of a view can be performed by calling ```UIImage(ofView: view)```.
+```swift
+UIImage(size: CGSize, color: UIColor)
+```
 
-##### Labels
+##### Create image with contents of a view
 
-To create images with text contents call the initializer ```init?(size: CGSize, font: UIFont, color: UIColor, content: String)```. This works with vector fonts too.
+```swift
+UIImage(ofView view: UIView)
+```
+
+##### Create image with contents of a string
+
+```swift
+UIImage(size: CGSize, font: UIFont, color: UIColor, content: String)
+```
+
 
 ### CGSize
 
-CGSize resizing is supported through ```resize(toMaximumSize size: CGSize)``` method.
+All CGSize methods are implemented as an extension on CGSize struct.
+
+##### Resize to fit in a maximum size while maintaining the aspect ratio
+
+```swift
+sizeStruct.resize(toMaximumSize size: CGSize)
+```
 
 ## Example
 

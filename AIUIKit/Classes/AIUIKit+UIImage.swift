@@ -9,6 +9,30 @@ import UIKit
 
 public extension UIImage {
     /**
+     * Create transparent image.
+     *
+     * - parameter size: image size
+     * - returns: transparent image
+     */
+    convenience init?(size: CGSize) {
+        var image: UIImage?
+        if #available(iOS 11.0, *) {
+            let renderer = UIGraphicsImageRenderer(size: size)
+            image = renderer.image { (context) in
+                
+            }
+        } else {
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+            defer { UIGraphicsEndImageContext() }
+            
+            image = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        
+        guard let outputImage = image, let cgImage = outputImage.cgImage else { return nil}
+        self.init(cgImage: cgImage, scale: outputImage.scale, orientation: outputImage.imageOrientation)
+    }
+    
+    /**
      * Create a image filled with a color.
      *
      * - parameter color: image color
@@ -18,70 +42,52 @@ public extension UIImage {
     convenience init?(size: CGSize, color: UIColor) {
         let bounds = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
         
-        UIGraphicsBeginImageContext(bounds.size)
-        defer { UIGraphicsEndImageContext() }
+        var image: UIImage?
+        if #available(iOS 11.0, *) {
+            let renderer = UIGraphicsImageRenderer(size: size)
+            image = renderer.image { (context) in
+                color.setFill()
+                context.fill(bounds)
+            }
+        } else {
+            UIGraphicsBeginImageContext(bounds.size)
+            defer { UIGraphicsEndImageContext() }
         
-        let context = UIGraphicsGetCurrentContext()
-        context?.setFillColor(color.cgColor)
-        context?.fill(bounds)
-        
-        guard let image = UIGraphicsGetImageFromCurrentImageContext(), let cgImage = image.cgImage else {
-            return nil
+            let context = UIGraphicsGetCurrentContext()
+            context?.setFillColor(color.cgColor)
+            context?.fill(bounds)
+            
+            image = UIGraphicsGetImageFromCurrentImageContext()
         }
-        self.init(cgImage: cgImage)
+        
+        guard let outputImage = image, let cgImage = outputImage.cgImage else { return nil}
+        self.init(cgImage: cgImage, scale: outputImage.scale, orientation: outputImage.imageOrientation)
     }
     
     /**
-     * Create image from a view.
+     * Create UIImage with the contents of a view.
      *
      * - parameter view: source view
      * - returns: image of source view
      */
     convenience init?(ofView view: UIView) {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0.0)
-        defer { UIGraphicsEndImageContext() }
+        var image: UIImage?
+        if #available(iOS 11.0, *) {
+            let renderer = UIGraphicsImageRenderer(size: view.bounds.size)
+            image = renderer.image { (context) in
+                view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+            }
+        } else {
+            UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0.0)
+            defer { UIGraphicsEndImageContext() }
         
-        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
-        
-        guard let image = UIGraphicsGetImageFromCurrentImageContext(), let cgImage = image.cgImage else {
-            return nil
+            view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+            
+            image = UIGraphicsGetImageFromCurrentImageContext()
         }
-        self.init(cgImage: cgImage)
-    }
-
-    /**
-     * Create transparent image.
-     *
-     * - parameter size: image size
-     * - returns: transparent image
-     */
-    convenience init?(size: CGSize) {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        defer { UIGraphicsEndImageContext() }
         
-        guard let image = UIGraphicsGetImageFromCurrentImageContext(), let cgImage = image.cgImage else {
-            return nil
-        }
-        self.init(cgImage: cgImage)
-    }
-
-    /**
-     * Create a transparent UIImage with the contents of an UILabel.
-     *
-     * - parameter label: label to draw
-     * - return: image object
-     */
-    convenience init?(label: UILabel) {
-        UIGraphicsBeginImageContextWithOptions(label.bounds.size, false, 0.0)
-        defer { UIGraphicsEndImageContext() }
-        
-        guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        label.layer.render(in: context)
-        
-        guard let image = UIGraphicsGetImageFromCurrentImageContext(), let cgImage = image.cgImage else {
-            return nil
-        }
-        self.init(cgImage: cgImage)
+        guard let outputImage = image, let cgImage = outputImage.cgImage else { return nil}
+        self.init(cgImage: cgImage, scale: outputImage.scale, orientation: outputImage.imageOrientation)
     }
     
     /**
@@ -95,14 +101,39 @@ public extension UIImage {
      * - return: image object
      */
     convenience init?(size: CGSize, font: UIFont, color: UIColor, content: String) {
-        let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height))
-        label.numberOfLines = 0
-        label.text = content
-        label.font = font
-        label.textAlignment = .center
-        label.textColor = color
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
         
-        guard let cgImage = UIImage(label: label)?.cgImage else { return nil }
-        self.init(cgImage: cgImage)
+        let attrString = NSAttributedString(string: content, attributes: [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: color,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle
+        ])
+        
+        var image: UIImage?
+        if #available(iOS 11.0, *) {
+            let renderer = UIGraphicsImageRenderer(size: size)
+            image = renderer.image { (context) in
+                attrString.draw(
+                    with: CGRect(x: 0.0, y: (size.height - font.pointSize) * 0.5, width: size.width, height: size.height),
+                    options: [.usesLineFragmentOrigin],
+                    context: nil
+                )
+            }
+        } else {
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+            defer { UIGraphicsEndImageContext() }
+            
+            attrString.draw(
+                with: CGRect(x: 0.0, y: (size.height - font.pointSize) * 0.5, width: size.width, height: size.height),
+                options: [.usesLineFragmentOrigin],
+                context: nil
+            )
+            
+            image = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        
+        guard let outputImage = image, let cgImage = outputImage.cgImage else { return nil}
+        self.init(cgImage: cgImage, scale: outputImage.scale, orientation: outputImage.imageOrientation)
     }
 }
