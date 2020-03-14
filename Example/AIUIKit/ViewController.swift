@@ -113,12 +113,14 @@ class ViewController: UIViewController {
         ])
         
         if let font = UIFont(name: "AvenirNextCondensed-DemiBold", size: 20.0) {
-            imageView.image = UIImage(
-                size: CGSize(width: 320.0, height: 150.0),
-                font: font,
-                color: UIColor(hex: "00aba9"),
-                content: "This is an image\ngenerated programatically"
-            )
+            let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 150.0))
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            label.font = font
+            label.textColor = UIColor(hex: "00aba9")
+            label.text = "This is an image\ngenerated programatically"
+            
+            imageView.image = UIImage(ofView: label)
         }
     }
 }
